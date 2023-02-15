@@ -1,22 +1,26 @@
 (define (problem strips-gripper-x-1)
    (:domain gripper-strips)
-   (:objects rooma roomb ball4 ball3 ball2 ball1 left right)
-   (:init (room rooma)
-          (room roomb)
-          (ball ball4)
-          (ball ball3)
-          (ball ball2)
-          (ball ball1)
-          (at-robby rooma)
-          (free left)
-          (free right)
-          (at ball4 rooma)
-          (at ball3 rooma)
-          (at ball2 rooma)
-          (at ball1 rooma)
-          (gripper left)
-          (gripper right))
-   (:goal (and (at ball4 roomb)
-               (at ball3 roomb)
-               (at ball2 roomb)
-               (at ball1 roomb))))
+   
+   (:objects dron1 - dron
+       localizacion1 localizacion2 base - localizacion
+       persona1 persona2 persona3-persona
+       caja1 caja2 caja3 -caja
+       medicina1 medicina2 comida1 comida2 - contenido
+       brazo-i brazo-d - brazo)
+   (:init loc-dron dron1 base
+       loc-caja caja1 base
+       loc-caja caja2 base
+       loc-caja caja3 base
+       contiene caja1 medicina1 
+       contiene caja1 comida1 
+       contiene caja2 medicina2 
+       contiene caja3 comida2 
+       loc-persona persona1 localizacion1
+       loc-persona persona2 localizacion1
+       loc-persona persona3 localizacion2
+       libre-brazo brazo-i
+       libre-brazo brazo-d
+
+       )
+   (:goal (and (tiene-caja persona1)
+   )))

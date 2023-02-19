@@ -25,13 +25,12 @@
        (necesita-contenido persona2 comida1)
        (necesita-contenido persona3 medicina2)
        (no-hay-persona base)
+       (brazos-dron dron1 brazo-i)
+       (brazos-dron dron1 brazo-d)
+    )
 
-       )
-
-    (:goal (and (tiene-contenido persona1 medicina1)
-        (tiene-contenido persona1 comida2)
-        (tiene-contenido persona2 comida1)
-        (tiene-contenido persona3 medicina2)
+    (:goal (and (loc-caja localizacion2 caja1)
+        (loc-caja localizacion2 caja2)
         )
     )
 )

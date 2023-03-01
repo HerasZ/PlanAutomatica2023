@@ -1,5 +1,5 @@
 (define (domain servicio-emergencia)
-    (:requirements :strips :typing :fluents)
+    (:requirements :strips :typing)
     (:types localizacion caja persona dron brazo contenido)
     
     (:predicates

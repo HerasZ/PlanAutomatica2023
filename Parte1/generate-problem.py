@@ -312,9 +312,10 @@ def main():
             i+=1
 
 
-        #Inicializar cajas en base
+        #Inicializar cajas en base y marcarlas como pendientes
         for x in crate:
             f.write("\t(loc-caja base " + x + ")\n")
+            f.write("\t(caja-pendiente " + x + ")\n")
 
         #Inicializar contenido en las cajas
         for x in crate:

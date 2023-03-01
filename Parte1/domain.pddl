@@ -10,7 +10,6 @@
         (contiene ?c - caja ?co - contenido)
         (carga-brazo ?c - caja ?b -brazo)
         (libre-brazo ?d - dron ?b - brazo)
-        (no-hay-persona ?l - localizacion)
         (caja-pendiente ?c - caja)
         (brazos-dron ?d - dron ?b - brazo)
     )

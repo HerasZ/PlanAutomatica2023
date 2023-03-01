@@ -318,6 +318,15 @@ def main():
             f.write("\t(caja-pendiente " + x + ")\n")
 
         #Inicializar contenido en las cajas
+
+        #PRIMERO, crear suficientes cajas para resolver el problema
+        for x in range(options.persons):
+            for y in range(len(content_types)):
+                if need[x][y]:
+                    content_name = content_types[y]
+                    f.write("\t(contiene " + crate.pop(0) + " " + content_name + ")\n")
+
+        #Si se puede, crear cajas con contienido aleatorio extra
         for x in crate:
             randomNum = random.randint(0, len(content_types)-1)
             f.write("\t(contiene " + x + " " + content_types[randomNum]  + ")\n")

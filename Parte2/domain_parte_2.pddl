@@ -22,8 +22,10 @@
         (capacidad-contenedor ?cont - contenedor)
     )
     (:action mover
-        :parameters (?desde - localizacion ?hasta - localizacion ?d - dron ?cont - contenedor)
+        :parameters (?desde - localizacion ?hasta - localizacion ?d - dron ?cont - contenedor ?bi ?bd - brazo)
         :precondition (and (loc-dron ?desde ?d)
+                        (carga-brazo-contenedor ?cont ?bi)
+                        (carga-brazo-contenedor ?cont ?bd)
                         (no-base ?hasta)
                         (> (capacidad-contenedor ?cont) 0))
         :effect (and (loc-dron ?hasta ?d)
@@ -32,8 +34,10 @@
     )
     
     (:action regresar
-        :parameters (?desde - localizacion ?hasta - localizacion ?d - dron ?cont - contenedor)
+        :parameters (?desde - localizacion ?hasta - localizacion ?d - dron ?cont - contenedor ?bi ?bd - brazo)
         :precondition (and (loc-dron ?desde ?d)
+                        (carga-brazo-contenedor ?cont ?bi)
+                        (carga-brazo-contenedor ?cont ?bd)
                         (base ?hasta)
                         (= (capacidad-contenedor ?cont) 0))
         :effect (and (loc-dron ?hasta ?d)

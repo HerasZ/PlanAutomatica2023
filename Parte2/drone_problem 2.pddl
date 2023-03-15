@@ -25,6 +25,7 @@
 	person5 - persona
 )
 (:init
+	(= (capacidad-contenedor contenedor1) 0 )
 	(loc-dron base drone1)
 	(loc-contenedor base contenedor1)
 	(brazos-dron drone1 brazod_dron1)
@@ -59,12 +60,10 @@
 	(no-base loc5)
 )
 (:goal (and
-
-	(loc-dron base drone1)
-	(tiene-contenido person1 medicina)
-	(tiene-contenido person2 comida)
-	(tiene-contenido person3 comida)
-	(tiene-contenido person3 medicina)
-	(tiene-contenido person4 comida)
-	))
+	(contenido-contenedor contenedor1 crate1)
+	(carga-brazo-contenedor contenedor1 brazod_dron1)
+	(loc-contenedor loc1 contenedor1)
+	)
+	
+)
 )

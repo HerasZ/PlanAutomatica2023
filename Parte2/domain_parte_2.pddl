@@ -64,7 +64,8 @@
     
     (:action soltar-contenedor
         :parameters (?l - localizacion ?d - dron ?bi ?bd - brazo ?cont - contenedor)
-        :precondition (and (loc-dron ?l ?d) 
+        :precondition (and (loc-dron ?l ?d)
+                        (distintos-brazos-dron ?bi ?bd) 
                         (carga-brazo-contenedor ?cont ?bi) 
                         (carga-brazo-contenedor ?cont ?bd)
                         (brazos-dron ?d ?bi)

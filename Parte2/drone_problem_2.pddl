@@ -32,6 +32,7 @@
 	(libre-brazo drone1 brazod_dron1)
 	(brazos-dron drone1 brazoi_dron1)
 	(libre-brazo drone1 brazoi_dron1)
+	(distintos-brazos-dron brazoi_dron1 brazod_dron1)
 	(loc-caja base crate1)
 	(caja-pendiente crate1)
 	(loc-caja base crate2)

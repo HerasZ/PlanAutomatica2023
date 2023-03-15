@@ -41,21 +41,31 @@
                 )
     )
     
-
-    (:action coger-contenedor
-        :parameters (?l - localizacion ?d - dron ?bi ?bd - brazo ?cont - contenedor)
-        :precondition (and (loc-dron ?l ?d) 
+    (:action coger-contenedor1
+        :parameters (?l - localizacion ?d - dron ?b - brazo ?cont - contenedor)
+        :precondition (and
+                        (loc-dron ?l ?d) 
                         (loc-contenedor ?l ?cont)
-                        (libre-brazo ?d ?bi) 
-                        (libre-brazo ?d ?bd)
-                        (brazos-dron ?d ?bi)
-                        (brazos-dron ?d ?bd)
+                        (libre-brazo ?d ?b) 
+                        (brazos-dron ?d ?b)
                     )
-        :effect (and (carga-brazo-contenedor ?cont ?bi)
-                    (carga-brazo-contenedor ?cont ?bd) 
+        :effect (and (carga-brazo-contenedor ?cont ?b)
+                    (not (libre-brazo ?d ?b))
+                )
+    )
+    
+    (:action coger-contenedor2
+        :parameters (?l - localizacion ?d - dron ?b ?bo - brazo ?cont - contenedor)
+        :precondition (and
+                        (carga-brazo-contenedor ?cont ?bo)
+                        (loc-dron ?l ?d) 
+                        (loc-contenedor ?l ?cont)
+                        (libre-brazo ?d ?b) 
+                        (brazos-dron ?d ?b)
+                    )
+        :effect (and (carga-brazo-contenedor ?cont ?b)
                     (not (loc-contenedor ?l ?cont))
-                    (not (libre-brazo ?d ?bi))
-                    (not (libre-brazo ?d ?bd))
+                    (not (libre-brazo ?d ?b))
                 )
     )
     

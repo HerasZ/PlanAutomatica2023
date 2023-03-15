@@ -262,7 +262,7 @@ def main():
         # Write the initial part of the problem
 
         f.write("(define (problem " + problem_name + ")\n")
-        f.write("(:domain servicio-emergencia)\n")
+        f.write("(:domain servicio-emergencia2)\n")
         f.write("(:objects\n")
 
         ######################################################################
@@ -320,11 +320,12 @@ def main():
         #Iniciar contenedores en base con capacidad
         for x in carrier:
             f.write("\t(loc-contenedor base "+x+")\n")
-            f.write("\t(= (capacidad-contenedor  " + x + ") 0)\n")
+            f.write("\t(= (capacidad-contenedor " + x + ") 0)\n")
 
         #Inicializar cajas en base y marcarlas como pendientes
         for x in crate:
             f.write("\t(loc-caja base " + x + ")\n")
+            f.write("\t(caja-pendiente " + x + ")\n")
 
         #Inicializar contenido en las cajas
 
@@ -333,7 +334,9 @@ def main():
             for y in range(len(content_types)):
                 if need[x][y]:
                     content_name = content_types[y]
-                    f.write("\t(contiene " + crate.pop(0) + " " + content_name + ")\n")
+                    caja = crate.pop(0)
+                    f.write("\t(contiene " + caja + " " + content_name + ")\n")
+
 
         #Si se puede, crear cajas con contienido aleatorio extra
         for x in crate:

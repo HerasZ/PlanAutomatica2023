@@ -1,4 +1,4 @@
-(define (domain servicio-emergencia)
+(define (domain servicio-emergencia2)
     (:requirements :strips :typing :fluents)
     (:types localizacion caja persona dron brazo contenido contenedor)
     
@@ -17,7 +17,7 @@
         (brazos-dron ?d - dron ?b - brazo)
         (base ?l - localizacion)
         (no-base ?l - localizacion)
-        (distintos-brazos-dron ?bi ?bd - brazo)
+        (distintos-brazos-dron ?b1 - brazo ?b2 - brazo)
     )
     (:functions
         (capacidad-contenedor ?cont - contenedor)

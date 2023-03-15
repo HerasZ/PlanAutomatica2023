@@ -61,8 +61,12 @@
 	(no-base loc5)
 )
 (:goal (and
-	(loc-contenedor loc1 contenedor1)
-	(loc-caja loc1 crate1)
+	(loc-dron base drone1)
+	(tiene-contenido person1 medicina)
+	(tiene-contenido person2 comida)
+	(tiene-contenido person3 comida)
+	(tiene-contenido person3 medicina)
+	(tiene-contenido person4 comida)
 	)
 	
 )

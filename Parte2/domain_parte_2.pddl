@@ -81,6 +81,7 @@
                     (loc-dron ?l ?d)
                     (carga-brazo ?c ?b)
                     (brazos-dron ?d ?b)
+                    (base ?l)
                     (< (capacidad-contenedor ?cont) 4))
         :effect (and (contenido-contenedor ?cont ?c)
                 (not(carga-brazo ?c ?b))

@@ -10,6 +10,7 @@
 	loc3 - localizacion
 	loc4 - localizacion
 	loc5 - localizacion
+	contenedor1 - contenedor
 	crate1 - caja
 	crate2 - caja
 	crate3 - caja
@@ -25,6 +26,7 @@
 )
 (:init
 	(loc-dron base drone1)
+	(loc-contenedor base contenedor1)
 	(brazos-dron drone1 brazod_dron1)
 	(libre-brazo drone1 brazod_dron1)
 	(brazos-dron drone1 brazoi_dron1)
@@ -49,6 +51,12 @@
 	(loc-persona loc1 person3)
 	(loc-persona loc3 person4)
 	(loc-persona loc2 person5)
+	(base base)
+	(no-base loc1)
+	(no-base loc2)
+	(no-base loc3)
+	(no-base loc4)
+	(no-base loc5)
 )
 (:goal (and
 

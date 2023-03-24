@@ -8,7 +8,7 @@
         (loc-dron ?l - localizacion ?d - dron)
         (loc-caja ?l - localizacion ?c - caja)
         (loc-persona ?l - localizacion ?p - persona)
-        (tiene-contenido ?p -persona ?co - contenido)
+        (tiene-contenido ?p - persona ?co - contenido)
         (contiene ?c - caja ?co - contenido)
         (carga-brazo ?c - caja ?b -brazo)
         (carga-brazo-contenedor ?cont - contenedor ?b -brazo)

@@ -23,6 +23,11 @@
 	person4 - persona
 	person5 - persona
 	carrier1 - contenedor
+	n0 - num
+	n1 - num
+	n2 - num
+	n3 - num
+	n4 - num
 )
 (:init
 	(loc-dron base drone1)
@@ -80,6 +85,26 @@
 	(= (coste-vuelo loc5 loc2) 82)
 	(= (coste-vuelo loc5 loc3) 82)
 	(= (coste-vuelo loc5 loc4) 45)
+	(mayor n1 n0)
+	(mayor n2 n0)
+	(mayor n3 n0)
+	(mayor n4 n0)
+	(menor n3 n4)
+	(menor n2 n4)
+	(menor n1 n4)
+	(menor n0 n4)
+	(incrementar n0 n1)
+	(incrementar n1 n2)
+	(incrementar n2 n3)
+	(incrementar n3 n4)
+	(decrementar n4 n3)
+	(decrementar n3 n2)
+	(decrementar n2 n1)
+	(decrementar n1 n0)
+	(minimo n0)
+	(tope n4)
+
+
 )
 (:goal (and
 

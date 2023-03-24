@@ -253,7 +253,7 @@ def main():
     need = setup_person_needs(options, crates_with_contents)
 
     # Define a problem name
-    problem_name = "drone_problem_d" + str(options.drones) + "_r" + str(options.carriers) + \
+    problem_name = "drone_problem_costs_d" + str(options.drones) + "_r" + str(options.carriers) + \
                    "_l" + str(options.locations) + "_p" + str(options.persons) + "_c" + str(options.crates) + \
                    "_g" + str(options.goals) + "_ct" + str(len(content_types))
 
@@ -358,10 +358,11 @@ def main():
 
         #Inicializar el coste total y las disntacias entre todas las localizaciones
         f.write("\t(= (coste-total) 0)")
-        for x in location:
-            for y in location:
-                distancia = flight_cost(location_coords,x,y)
-                f.write("\t(= (coste-vuelo"+ x + " " + y + ") "+ distancia +")\n")
+        for x in range(len(location)):
+            for y in range(len(location)):
+                if x != y:
+                    distancia = flight_cost(location_coords,x,y)
+                    f.write("\t(= (coste-vuelo "+ location[x] + " " + location[y] + ") "+ str(distancia) +")\n")
 
         f.write(")\n")
 

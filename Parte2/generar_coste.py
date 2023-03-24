@@ -219,6 +219,7 @@ def main():
     carrier = []
     location = []
     brazos = []
+    num = []
 
     location.append("base")
     for x in range(options.locations):
@@ -234,6 +235,8 @@ def main():
         person.append("person" + str(x + 1))
     for x in range(options.crates):
         crate.append("crate" + str(x + 1))
+    for x in range(5):
+        num.append("n"+ str(x))
     
     # Determine the set of crates for each content.
     # If content_types[0] is "food",
@@ -291,6 +294,9 @@ def main():
 
         for x in carrier:
             f.write("\t" + x + " - contenedor\n")
+        
+        for x in num:
+            f.write("\t" + x + " - num\n")  
 
         f.write(")\n")
 
@@ -320,7 +326,6 @@ def main():
         #Iniciar contenedores en base con capacidad
         for x in carrier:
             f.write("\t(loc-contenedor base "+x+")\n")
-            f.write("\t(= (capacidad-contenedor " + x + ") 0)\n")
 
         #Inicializar cajas en base y marcarlas como pendientes
         for x in crate:
@@ -352,17 +357,32 @@ def main():
 
         #Dar condicion de bases y no bases
         f.write("\t(base base)\n")
-        location.remove("base")
-        for x in location:
+        location_copia = location.copy()
+        location_copia.remove("base")
+        for x in location_copia:
             f.write("\t(no-base "+ x +")\n")
 
         #Inicializar el coste total y las disntacias entre todas las localizaciones
-        f.write("\t(= (coste-total) 0)\n")
+        f.write("\t(= (total-cost) 0)\n")
         for x in range(len(location)):
             for y in range(len(location)):
                 if x != y:
                     distancia = flight_cost(location_coords,x,y)
                     f.write("\t(= (coste-vuelo "+ location[x] + " " + location[y] + ") "+ str(distancia) +")\n")
+
+        for x in num[1:]:
+            f.write("\t(mayor "+ x +" " + num[0] +")\n")
+
+        for x in num[:-1]:
+            f.write("\t(menor "+ x +" " + num[len(num)-1] +")\n")
+
+        for x in range(len(num)-1):
+            f.write("\t(incrementar "+ num[x] +" " + num[x+1] +")\n")
+
+        f.write("\t(tope "+ num[len(num)-1] +")\n")
+        f.write("\t(minimo "+ num[0] +")\n")
+        f.write("\t(capacidad "+ num[0] +")\n")
+
 
         f.write(")\n")
 
@@ -389,7 +409,7 @@ def main():
         f.write("\t))\n")
 
         #Goal para minimizar el coste total del problema
-        f.write("(:metric minimize (coste-total))\n")
+        f.write("(:metric minimize (total-cost))\n")
 
         f.write(")\n")
 

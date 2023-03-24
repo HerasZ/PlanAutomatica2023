@@ -366,9 +366,8 @@ def main():
         f.write("\t(= (total-cost) 0)\n")
         for x in range(len(location)):
             for y in range(len(location)):
-                if x != y:
-                    distancia = flight_cost(location_coords,x,y)
-                    f.write("\t(= (coste-vuelo "+ location[x] + " " + location[y] + ") "+ str(distancia) +")\n")
+                distancia = flight_cost(location_coords,x,y)
+                f.write("\t(= (coste-vuelo "+ location[x] + " " + location[y] + ") "+ str(distancia) +")\n")
 
         for x in num[1:]:
             f.write("\t(mayor "+ x +" " + num[0] +")\n")

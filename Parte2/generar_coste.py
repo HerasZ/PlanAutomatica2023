@@ -357,7 +357,7 @@ def main():
             f.write("\t(no-base "+ x +")\n")
 
         #Inicializar el coste total y las disntacias entre todas las localizaciones
-        f.write("\t(= (coste-total) 0)")
+        f.write("\t(= (coste-total) 0)\n")
         for x in range(len(location)):
             for y in range(len(location)):
                 if x != y:

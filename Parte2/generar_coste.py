@@ -371,14 +371,10 @@ def main():
 
         for x in num[1:]:
             f.write("\t(mayor "+ x +" " + num[0] +")\n")
-
-        for x in num[:-1]:
-            f.write("\t(menor "+ x +" " + num[len(num)-1] +")\n")
-
+            
         for x in range(len(num)-1):
             f.write("\t(incrementar "+ num[x] +" " + num[x+1] +")\n")
 
-        f.write("\t(tope "+ num[len(num)-1] +")\n")
         f.write("\t(minimo "+ num[0] +")\n")
         f.write("\t(capacidad "+ num[0] +")\n")
 

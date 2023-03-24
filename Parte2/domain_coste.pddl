@@ -1,4 +1,4 @@
-(define (domain servicio-emergencia2)
+(define (domain servicio-emergencia-costes)
     (:requirements :strips :typing :fluents :action-costs)
     (:types localizacion caja persona dron brazo contenido contenedor)
     

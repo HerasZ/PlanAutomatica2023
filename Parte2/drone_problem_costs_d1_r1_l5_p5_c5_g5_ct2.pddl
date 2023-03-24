@@ -1,5 +1,5 @@
 (define (problem drone_problem_costs_d1_r1_l5_p5_c5_g5_ct2)
-(:domain servicio-emergencia2)
+(:domain servicio-emergencia-costes)
 (:objects
 	drone1 - dron
 	brazod_dron1 - brazo

@@ -262,7 +262,7 @@ def main():
         # Write the initial part of the problem
 
         f.write("(define (problem " + problem_name + ")\n")
-        f.write("(:domain servicio-emergencia2)\n")
+        f.write("(:domain servicio-emergencia-costes)\n")
         f.write("(:objects\n")
 
         ######################################################################

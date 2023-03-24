@@ -31,7 +31,7 @@
                         (> (capacidad-contenedor ?cont) 0))
         :effect (and (loc-dron ?hasta ?d)
                     (not (loc-dron ?desde ?d))
-                    (increase (coste-total) (coste-vuelo ?hasta ?d))
+                    (increase (coste-total) (coste-vuelo ?desde ?hasta))
                 )
     )
     
@@ -42,7 +42,7 @@
                         (= (capacidad-contenedor ?cont) 0))
         :effect (and (loc-dron ?hasta ?d)
                     (not (loc-dron ?desde ?d))
-                    (increase (coste-total) (coste-vuelo ?hasta ?d))
+                    (increase (coste-total) (coste-vuelo ?desde ?hasta))
                 )
     )
     

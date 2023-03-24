@@ -37,7 +37,6 @@
 	(libre-brazo drone1 brazoi_dron1)
 	(distintos-brazos-dron brazod_dron1 brazoi_dron1)
 	(loc-contenedor base carrier1)
-	(= (capacidad-contenedor carrier1) 0)
 	(loc-caja base crate1)
 	(caja-pendiente crate1)
 	(loc-caja base crate2)
@@ -97,12 +96,9 @@
 	(incrementar n1 n2)
 	(incrementar n2 n3)
 	(incrementar n3 n4)
-	(decrementar n4 n3)
-	(decrementar n3 n2)
-	(decrementar n2 n1)
-	(decrementar n1 n0)
 	(minimo n0)
 	(tope n4)
+	(capacidad n0)
 
 
 )

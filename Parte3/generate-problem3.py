@@ -256,7 +256,7 @@ def main():
     need = setup_person_needs(options, crates_with_contents)
 
     # Define a problem name
-    problem_name = "drone_problem_costs_d" + str(options.drones) + "_r" + str(options.carriers) + \
+    problem_name = "drone_problem_durative_d" + str(options.drones) + "_r" + str(options.carriers) + \
                    "_l" + str(options.locations) + "_p" + str(options.persons) + "_c" + str(options.crates) + \
                    "_g" + str(options.goals) + "_ct" + str(len(content_types))
 
@@ -265,7 +265,7 @@ def main():
         # Write the initial part of the problem
 
         f.write("(define (problem " + problem_name + ")\n")
-        f.write("(:domain servicio-emergencia-costes)\n")
+        f.write("(:domain servicio-emergencia-durative)\n")
         f.write("(:objects\n")
 
         ######################################################################

@@ -1,4 +1,4 @@
-(define (domain servicio-emergencia-costes)
+(define (domain servicio-emergencia-durative)
     (:requirements :strips :typing :durative-actions)
     (:types localizacion caja persona dron brazo contenido contenedor num)
     

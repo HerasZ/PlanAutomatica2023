@@ -26,7 +26,7 @@
         (minimo ?n1 - num)
     )
     (:functions
-        (coste-total)
+        (total-cost)
         (coste-vuelo ?lorigen ?ldestino - localizacion)
     )
     (:action mover
@@ -38,7 +38,7 @@
                         (mayor ?n1 ?minim))
         :effect (and (loc-dron ?hasta ?d)
                     (not (loc-dron ?desde ?d))
-                    (increase (coste-total) (coste-vuelo ?desde ?hasta))
+                    (increase (total-cost) (coste-vuelo ?desde ?hasta))
                 )
     )
     
@@ -50,7 +50,7 @@
                         (capacidad ?minim))
         :effect (and (loc-dron ?hasta ?d)
                     (not (loc-dron ?desde ?d))
-                    (increase (coste-total) (coste-vuelo ?desde ?hasta))
+                    (increase (total-cost) (coste-vuelo ?desde ?hasta))
                 )
     )
     

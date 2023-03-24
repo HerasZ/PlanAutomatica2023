@@ -111,5 +111,5 @@
 	(tiene-contenido person3 medicina)
 	(tiene-contenido person4 medicina)
 	))
-(:metric minimize (coste-total))
+(:metric minimize (total-cost))
 )

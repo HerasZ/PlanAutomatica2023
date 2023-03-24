@@ -107,7 +107,7 @@
     )
     
     (:action descargar-contenedor
-        :parameters (?cont - contenedor ?d - dron ?c - caja ?b - brazo ?l - localizacion ?minimo ?n1 ?capacidad - num)
+        :parameters (?cont - contenedor ?d - dron ?c - caja ?b - brazo ?l - localizacion ?n1 ?capacidad - num)
         :precondition (and (loc-contenedor ?l ?cont) 
                     (loc-dron ?l ?d)
                     (contenido-contenedor ?cont ?c)

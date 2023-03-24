@@ -11,7 +11,7 @@
         (tiene-contenido ?p - persona ?co - contenido)
         (contiene ?c - caja ?co - contenido)
         (carga-brazo ?c - caja ?b - brazo)
-        (carga-brazo-contenedor ?cont - contenedor ?b -brazo)
+        (carga-brazo-contenedor ?cont - contenedor ?b - brazo)
         (libre-brazo ?d - dron ?b - brazo)
         (caja-pendiente ?c - caja)
         (brazos-dron ?d - dron ?b - brazo)

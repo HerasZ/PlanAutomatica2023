@@ -389,7 +389,7 @@ def main():
         f.write("\t))\n")
 
         #Goal para minimizar el coste total del problema
-        f.write("\t(metric minimize (coste-total))\n")
+        f.write("(:metric minimize (coste-total))\n")
 
         f.write(")\n")
 

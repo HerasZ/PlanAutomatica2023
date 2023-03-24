@@ -387,6 +387,10 @@ def main():
                     f.write("\t(tiene-contenido " + person_name + " " + content_name + ")\n")
 
         f.write("\t))\n")
+
+        #Goal para minimizar el coste total del problema
+        f.write("\t(metric minimize (coste-total))\n")
+
         f.write(")\n")
 
 

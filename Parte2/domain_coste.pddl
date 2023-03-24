@@ -119,7 +119,7 @@
                     (brazos-dron ?d ?b)
                     (minimo ?minimo)
                     (capacidad ?capacidad)
-                    (menor ?n1 ?minimo)
+                    (mayor ?n1 ?minimo)
                     (incrementar ?n1 ?capacidad)
                     )
         :effect (and (not (contenido-contenedor ?cont ?c))

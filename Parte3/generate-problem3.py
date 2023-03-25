@@ -376,7 +376,9 @@ def main():
             f.write("\t(incrementar "+ num[x] +" " + num[x+1] +")\n")
 
         f.write("\t(minimo "+ num[0] +")\n")
-        f.write("\t(capacidad "+ num[0] +")\n")
+
+        for x in carrier:
+            f.write("\t(capacidad "+ num[0] +" " + x + ")\n")
 
 
         f.write(")\n")

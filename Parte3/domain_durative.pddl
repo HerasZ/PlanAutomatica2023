@@ -29,7 +29,7 @@
     )
 
     (:durative-action mover
-        :parameters (?desde - localizacion ?hasta - localizacion ?d - dron ?cont - contenedor ?minim ?n1 - num)
+        :parameters (?desde - localizacion ?hasta - localizacion ?d - dron ?bd -brazo ?bi - brazo ?cont - contenedor ?minim ?n1 - num)
         :duration (= ?duration (coste-vuelo ?desde ?hasta))
         :condition (and 
                         (at start (and
@@ -41,7 +41,12 @@
                                         (capacidad ?n1 ?cont)
                                         (mayor ?n1 ?minim)
                                         (no-base ?hasta)
-                                    )
+                                        (brazos-dron ?d ?bi)
+                                        (brazos-dron ?d ?bd)
+                                        (distintos-brazos-dron ?bd ?bi)
+                                        (carga-brazo-contenedor ?cont ?bd) 
+                                        (carga-brazo-contenedor ?cont ?bi)                                   
+                        )
                         )
                      )
         :effect (and 
@@ -57,7 +62,7 @@
     )
     
     (:durative-action regresar
-        :parameters (?desde - localizacion ?hasta - localizacion ?d - dron ?cont - contenedor ?minim - num)
+        :parameters (?desde - localizacion ?hasta - localizacion ?d - dron ?cont - contenedor ?minim - num ?bd ?bi - brazo)
         :duration (= ?duration (coste-vuelo ?desde ?hasta))
         :condition (and 
                         (at start (and
@@ -68,6 +73,11 @@
                                         (base ?hasta)
                                         (minimo ?minim)
                                         (capacidad ?minim ?cont)
+                                        (brazos-dron ?d ?bi)
+                                        (brazos-dron ?d ?bd)
+                                        (distintos-brazos-dron ?bd ?bi)
+                                        (carga-brazo-contenedor ?cont ?bd) 
+                                        (carga-brazo-contenedor ?cont ?bi) 
                                     )
                         )
                      )

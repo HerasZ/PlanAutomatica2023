@@ -362,6 +362,11 @@ def main():
         for x in location_copia:
             f.write("\t(no-base "+ x +")\n")
 
+        #Coste de vuelos para la duracion
+        for x in range(len(location)):
+            for y in range(len(location)):
+                distancia = flight_cost(location_coords,x,y)
+                f.write("\t(= (coste-vuelo "+ location[x] + " " + location[y] + ") "+ str(distancia) +")\n")
 
         #Funcionamiento de los numeros
         for x in num[1:]:

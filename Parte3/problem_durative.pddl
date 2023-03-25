@@ -35,7 +35,7 @@
 )
 (:init
 	(loc-dron base drone1)
-	(loc-dron loc1 drone2)
+	(loc-dron base drone2)
 	(brazos-dron drone1 brazod_dron1)
 	(libre-brazo drone1 brazod_dron1)
 	(brazos-dron drone1 brazoi_dron1)

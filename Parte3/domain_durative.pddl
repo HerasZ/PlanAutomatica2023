@@ -1,5 +1,5 @@
 (define (domain servicio-emergencia-durative)
-    (:requirements :strips :typing :durative-actions :action-costs)
+    (:requirements :strips :typing :durative-actions)
     (:types localizacion caja persona dron brazo contenido contenedor num)
     
     (:predicates
@@ -24,11 +24,6 @@
         (minimo ?n - num)
     )
 
-    (:functions
-        (total-cost)
-        (coste-vuelo ?lorigen ?ldestino - localizacion)
-    )
-
     (:action mover
         :parameters (?desde - localizacion ?hasta - localizacion ?d - dron ?cont - contenedor ?minim ?n1 - num)
         :precondition (and (loc-dron ?desde ?d)
@@ -38,7 +33,6 @@
                         (mayor ?n1 ?minim))
         :effect (and (loc-dron ?hasta ?d)
                     (not (loc-dron ?desde ?d))
-                    (increase (total-cost)(coste-vuelo ?desde ?hasta))
                 )
     )
     
@@ -50,7 +44,6 @@
                         (capacidad ?minim))
         :effect (and (loc-dron ?hasta ?d)
                     (not (loc-dron ?desde ?d))
-                    (increase (total-cost)(coste-vuelo ?desde ?hasta))
                 )
     )
     

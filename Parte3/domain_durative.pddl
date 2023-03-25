@@ -1,5 +1,5 @@
 (define (domain servicio-emergencia-durative)
-    (:requirements :strips :typing :durative-actions)
+    (:requirements :strips :typing :durative-actions :action-costs)
     (:types localizacion caja persona dron brazo contenido contenedor num)
     
     (:predicates
@@ -24,6 +24,11 @@
         (minimo ?n - num)
     )
 
+    (:functions
+        (total-cost)
+        (coste-vuelo ?lorigen ?ldestino - localizacion)
+    )
+
     (:action mover
         :parameters (?desde - localizacion ?hasta - localizacion ?d - dron ?cont - contenedor ?minim ?n1 - num)
         :precondition (and (loc-dron ?desde ?d)
@@ -33,6 +38,7 @@
                         (mayor ?n1 ?minim))
         :effect (and (loc-dron ?hasta ?d)
                     (not (loc-dron ?desde ?d))
+                    (increase (total-cost)(coste-vuelo ?desde ?hasta))
                 )
     )
     
@@ -44,26 +50,43 @@
                         (capacidad ?minim))
         :effect (and (loc-dron ?hasta ?d)
                     (not (loc-dron ?desde ?d))
+                    (increase (total-cost)(coste-vuelo ?desde ?hasta))
                 )
     )
     
 
-    (:action coger-contenedor
+    (:durative-action coger-contenedor
         :parameters (?l - localizacion ?d - dron ?bi - brazo ?bd - brazo ?cont - contenedor)
-        :precondition (and
-                        (distintos-brazos-dron ?bi ?bd)
-                        (loc-dron ?l ?d) 
-                        (loc-contenedor ?l ?cont)
-                        (libre-brazo ?d ?bi) 
-                        (libre-brazo ?d ?bd)
-                        (brazos-dron ?d ?bi)
-                        (brazos-dron ?d ?bd)
+        :duration (= ?duration 1)
+        :condition (and
+                        (at start (and  
+                                    (loc-contenedor ?l ?cont)
+                                    (libre-brazo ?d ?bi) 
+                                    (libre-brazo ?d ?bd)
+                                   )
+                        )
+                        (over all (and
+                                    (distintos-brazos-dron ?bi ?bd)
+                                    (loc-dron ?l ?d)
+                                    (brazos-dron ?d ?bi)
+                                    (brazos-dron ?d ?bd)
+                                  )
+                        )
+                    )       
+        :effect (and 
+                    (at start 
+                        (and
+                            (not (loc-contenedor ?l ?cont))
+                            (not (libre-brazo ?d ?bi))
+                            (not (libre-brazo ?d ?bd))
+                        )
                     )
-        :effect (and (carga-brazo-contenedor ?cont ?bi)
-                    (carga-brazo-contenedor ?cont ?bd) 
-                    (not (loc-contenedor ?l ?cont))
-                    (not (libre-brazo ?d ?bi))
-                    (not (libre-brazo ?d ?bd))
+                    (at end 
+                        (and
+                            (carga-brazo-contenedor ?cont ?bi)
+                            (carga-brazo-contenedor ?cont ?bd)
+                        )
+                    )
                 )
     )
     
@@ -123,15 +146,19 @@
         :parameters (?l - localizacion ?c - caja ?d - dron ?p - persona ?b - brazo ?co - contenido)
         :duration (= ?duration 1)
         :condition (and 
-                        (at start (and 
-                                    (loc-dron ?l ?d) 
-                                    (brazos-dron ?d ?b) 
+                        (at start (and  
                                     (carga-brazo ?c ?b) 
-                                    (contiene ?c ?co) 
+                                )
+                        )
+                        (over all (and
+                                    (loc-dron ?l ?d)
+                                    (brazos-dron ?d ?b)
                                     (loc-persona ?l ?p)
+                                    (contiene ?c ?co)
                                 )
                         )
                     )
+                    
         :effect (and
                     (at start (tiene-contenido ?p ?co))
                     (at end (and (loc-caja ?l ?c) 
@@ -142,18 +169,22 @@
                     )        
                 )
     )
-
+    
     (:durative-action coger-caja
         :parameters (?l - localizacion ?c - caja ?d - dron ?b - brazo)
         :duration (= ?duration 1)
         :condition (and
-                        (at start (and (loc-dron ?l ?d) 
+                        (at start (and 
                                     (loc-caja ?l ?c) 
-                                    (libre-brazo ?d ?b) 
-                                    (brazos-dron ?d ?b)
-                                    (caja-pendiente ?c) 
+                                    (libre-brazo ?d ?b)  
                                 )
-                        ) 
+                        )
+                        (over all (and
+                                    (loc-dron ?l ?d)
+                                    (brazos-dron ?d ?b)
+                                    (caja-pendiente ?c)
+                                )
+                        )
                     )
         :effect (and 
                     (at start (not (loc-caja ?l ?c)))

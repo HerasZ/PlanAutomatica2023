@@ -1,9 +1,12 @@
-(define (problem drone_problem_costs_d1_r1_l5_p5_c5_g5_ct2)
-(:domain servicio-emergencia-costes)
+(define (problem problem_durative)
+(:domain servicio-emergencia-durative)
 (:objects
 	drone1 - dron
+	drone2 - dron
 	brazod_dron1 - brazo
 	brazoi_dron1 - brazo
+	brazod_dron2 - brazo
+	brazoi_dron2 - brazo
 	base - localizacion
 	loc1 - localizacion
 	loc2 - localizacion
@@ -23,6 +26,7 @@
 	person4 - persona
 	person5 - persona
 	carrier1 - contenedor
+	carrier2 - contenedor
 	n0 - num
 	n1 - num
 	n2 - num
@@ -31,12 +35,19 @@
 )
 (:init
 	(loc-dron base drone1)
+	(loc-dron loc1 drone2)
 	(brazos-dron drone1 brazod_dron1)
 	(libre-brazo drone1 brazod_dron1)
 	(brazos-dron drone1 brazoi_dron1)
 	(libre-brazo drone1 brazoi_dron1)
+	(brazos-dron drone2 brazod_dron2)
+	(libre-brazo drone2 brazod_dron2)
+	(brazos-dron drone2 brazoi_dron2)
+	(libre-brazo drone2 brazoi_dron2)
 	(distintos-brazos-dron brazod_dron1 brazoi_dron1)
+	(distintos-brazos-dron brazod_dron2 brazoi_dron2)
 	(loc-contenedor base carrier1)
+	(loc-contenedor base carrier2)
 	(loc-caja base crate1)
 	(caja-pendiente crate1)
 	(loc-caja base crate2)
@@ -63,6 +74,16 @@
 	(no-base loc3)
 	(no-base loc4)
 	(no-base loc5)
+	(mayor n1 n0)
+	(mayor n2 n0)
+	(mayor n3 n0)
+	(mayor n4 n0)
+	(incrementar n0 n1)
+	(incrementar n1 n2)
+	(incrementar n2 n3)
+	(incrementar n3 n4)
+	(minimo n0)
+	(capacidad n0)
 	(= (total-cost) 0)
 	(= (coste-vuelo base base) 1)
 	(= (coste-vuelo base loc1) 197)
@@ -100,16 +121,6 @@
 	(= (coste-vuelo loc5 loc3) 86)
 	(= (coste-vuelo loc5 loc4) 203)
 	(= (coste-vuelo loc5 loc5) 1)
-	(mayor n1 n0)
-	(mayor n2 n0)
-	(mayor n3 n0)
-	(mayor n4 n0)
-	(incrementar n0 n1)
-	(incrementar n1 n2)
-	(incrementar n2 n3)
-	(incrementar n3 n4)
-	(minimo n0)
-	(capacidad n0)
 )
 (:goal (and
 
@@ -120,5 +131,4 @@
 	(tiene-contenido person4 comida)
 	(tiene-contenido person5 medicina)
 	))
-(:metric minimize (total-cost))
 )

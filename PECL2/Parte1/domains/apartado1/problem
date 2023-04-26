@@ -1,0 +1,11 @@
+(defproblem problem servicio-emergencia(
+    (
+    (dron d1)(brazo brazod)(brazo brazoi)(brazos-dron d1 brazod)(brazos-dron d1 brazoi)(libre-brazo d1 brazod)(libre-brazo d1 brazoi)
+    (contenido medicina)
+    (caja c1)(contiene c1 medicina)(loc-caja l1 c1)
+    (loc l1)(loc l2)(loc l3)(loc-dron d1 l1)
+    (persona mario)(loc-persona l3 mario)(necesita-contenido mario medicina)
+    )
+    (enviar-todo d1)
+)
+)

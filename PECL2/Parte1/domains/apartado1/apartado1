@@ -1,0 +1,48 @@
+(defdomain servicio-emergencia (
+
+    (:operator (!mover ?d ?i ?f) 
+        ;Precondiciones
+        ((dron ?d)(loc ?i)(loc ?f)(loc-dron ?d ?i))     
+        ;Efectos negativos   
+        ((loc-dron ?d ?i))
+        ;Efectos positivos
+        ((loc-dron ?d ?f))
+    )
+
+    (:operator (!coger-caja ?l ?c ?d ?b)
+        ;Precondiciones
+        ((loc ?l)(caja ?c)(dron ?d)(brazo ?b)
+        (loc-dron ?l ?d)(loc-caja ?l ?c)(libre-brazo ?d ?b) 
+        (brazos-dron ?d ?b)(caja-pendiente ?c))
+        ;Efectos negativos
+        ((loc-caja ?l ?c)(libre-brazo ?d ?b)) 
+        ;Efectos positivos
+        ((carga-brazo ?c ?b))           
+    )
+
+    (:operator (!dar-caja ?l ?c ?d ?p ?b ?co)
+        ;Precondiciones
+        ((loc ?l)(caja ?c)(dron ?d)(brazo ?b)(persona ?p)(contenido ?co)
+        (loc-dron ?l ?d)(brazos-dron ?d ?b)(carga-brazo ?c ?b)(contiene ?c ?co)(loc-persona ?l ?p))
+        ;Efectos negativos
+        ((carga-brazo ?c ?b)(caja-pendiente ?c)(necesita-contenido ?p ?co)) 
+        ;Efectos positivos
+        ((libre-brazo ?d ?b)(loc-caja ?l ?c))
+    )
+
+    (:method (!enviar-todo ?d)
+              
+        ((dron ?d)(brazo ?b)(libre-brazo ?d ?b)(brazos-dron ?d ?b))
+        ((coger-caja ?l ?c ?d ?b))
+          
+        ((dron ?d)(caja ?c)(brazo ?b)(carga-brazo ?c ?b)(contiene ?c ?co)(necesita-contenido ?p ?co))
+        ((dar-caja ?l ?c ?d ?p ?b ?co))
+     
+        ((dron ?d)(loc-dron ?d ?i))
+        ((mover ?d ?i ?f))
+     
+    )
+
+
+)
+)

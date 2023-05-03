@@ -2,9 +2,11 @@
     (
     (dron d1)(brazo brazod)(brazo brazoi)(brazos-dron d1 brazod)(brazos-dron d1 brazoi)(libre-brazo d1 brazod)(libre-brazo d1 brazoi)
     (contenido medicina)
-    (caja c1)(contiene c1 medicina)(loc-caja l1 c1)
-    (loc l1)(loc l2)(loc l3)(loc-dron l1 d1)
-    (persona mario)(loc-persona l1 mario)(necesita-contenido mario medicina)
+    (caja c1)(contiene c1 medicina)(loc-caja base c1)
+    (base base)
+    (loc base)(loc l2)(loc l3)(loc-dron base d1)
+    (persona mario)(loc-persona l2 mario)(necesita-contenido mario medicina)
+    
     )
     ((enviar-todo d1))
 )

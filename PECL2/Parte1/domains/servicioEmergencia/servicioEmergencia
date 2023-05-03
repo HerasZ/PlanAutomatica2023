@@ -1,55 +1,56 @@
+
 (defdomain servicioEmergencia (
 
-    (:operator (!mover ?d ?i ?f) 
+    (:operator (!mover ?dron ?inicio ?fin) 
         ;Precondiciones
-        ((dron ?d)(loc ?i)(loc ?f)(loc-dron ?i ?d))     
+        ((dron ?dron)(loc ?inicio)(loc ?final)(loc-dron ?inicio ?dron))     
         ;Efectos negativos   
-        ((loc-dron ?i ?d))
+        ((loc-dron ?inicio ?dron))
         ;Efectos positivos
-        ((loc-dron ?f ?d))
+        ((loc-dron ?fin ?dron))
     )
 
-    (:operator (!coger-caja ?l ?c ?d ?b)
+    (:operator (!coger-caja ?loc ?caja ?dron ?brazo)
         ;Precondiciones
-        ((loc ?l)(caja ?c)(dron ?d)(brazo ?b)
-        (loc-dron ?l ?d)(loc-caja ?l ?c)(libre-brazo ?d ?b) 
-        (brazos-dron ?d ?b))
+        ((loc ?loc)(caja ?caja)(dron ?dron)(brazo ?brazo)
+        (loc-dron ?loc ?dron)(loc-caja ?loc ?caja)(libre-brazo ?dron ?brazo) 
+        (brazos-dron ?dron ?brazo))
         ;Efectos negativos
-        ((loc-caja ?l ?c)(libre-brazo ?d ?b)) 
+        ((loc-caja ?loc ?caja)(libre-brazo ?dron ?brazo)) 
         ;Efectos positivos
-        ((carga-brazo ?c ?b))           
+        ((carga-brazo ?caja ?brazo))           
     )
 
-    (:operator (!dar-caja ?l ?c ?d ?p ?b ?co)
+    (:operator (!dar-caja ?loc ?caja ?dron ?persona ?brazo ?cont)
         ;Precondiciones
-        ((loc ?l)(caja ?c)(dron ?d)(brazo ?b)(persona ?p)(contenido ?co)
-        (loc-dron ?l ?d)(brazos-dron ?d ?b)(carga-brazo ?c ?b)(contiene ?c ?co)(loc-persona ?l ?p))
+        ((loc ?loc)(caja ?caja)(dron ?dron)(brazo ?brazo)(persona ?persona)(contenido ?contenido)
+        (loc-dron ?loc ?dron)(brazos-dron ?dron ?brazo)(carga-brazo ?caja ?brazo)(contiene ?caja ?cont)(loc-persona ?loc ?persona))
         ;Efectos negativos
-        ((carga-brazo ?c ?b)(caja-pendiente ?c)(necesita-contenido ?p ?co)) 
+        ((carga-brazo ?caja ?brazo)(necesita-contenido ?persona ?contenido)) 
         ;Efectos positivos
-        ((libre-brazo ?d ?b)(loc-caja ?l ?c))
+        ((libre-brazo ?dron ?brazo)(loc-caja ?loc ?caja))
     )
 
-    (:method (enviar-todo ?d)
+    (:method (enviar-todo ?dron)
               
-	((dron ?d)(persona ?p)(contenido ?co)(necesita-contenido ?p ?co))
-	((enviar-caja ?d ?p)(enviar-todo ?d))
+	((dron ?dron)(persona ?persona)(contenido ?cont)(necesita-contenido ?persona ?cont))
+	((enviar-caja ?dron ?persona)(enviar-todo ?dron))
 	
 	()
 	()
      
     )
     
-    (:method (enviar-caja ?d ?p)
+    (:method (enviar-caja ?dron ?persona)
     
-        ((dron ?d)(brazo ?b)(caja ?c)(loc ?l)(libre-brazo ?d ?b)(brazos-dron ?d ?b)(necesita-contenido ?p ?co))
-        ((coger-caja ?l ?c ?d ?b))
+        ((contiene ?caja ?cont)(necesita-contenido ?persona ?cont))
+        ((!coger-caja ?loc ?caja ?dron ?brazo))
           
-        ((dron ?d)(caja ?c)(brazo ?b)(contenido ?co)(persona ?p)(loc ?l)(carga-brazo ?c ?b)(contiene ?c ?co)(necesita-contenido ?p ?co))
-        ((dar-caja ?l ?c ?d ?p ?b ?co))
+        ((dron ?dron)(caja ?caja)(brazo ?brazo)(contenido ?contenido)(persona ?persona)(loc ?loc)(necesita-contenido ?persona ?cont))
+        ((!dar-caja ?loc ?caja ?dron ?persona ?brazo ?cont))
      
-        ((dron ?d)(loc ?l)(loc ?f)(necesita-contenido ?p ?co))
-        ((mover ?d ?l ?f))
+        ((loc-dron ?loc ?dron)(necesita-contenido ?persona ?cont))
+        ((!mover ?dron ?loc ?fin))
     
     )
 

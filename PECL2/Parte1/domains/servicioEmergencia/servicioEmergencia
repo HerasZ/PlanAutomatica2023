@@ -1,4 +1,3 @@
-
 (defdomain servicioEmergencia (
 
     (:operator (!mover ?dron ?inicio ?fin) 
@@ -43,13 +42,13 @@
     
     (:method (enviar-caja ?dron ?persona)
     
-        ((contiene ?caja ?cont)(necesita-contenido ?persona ?cont))
+        ((contiene ?caja ?cont)(necesita-contenido ?persona ?cont)(not(carga-brazo ?caja ?brazo)))
         ((!coger-caja ?loc ?caja ?dron ?brazo))
           
-        ((dron ?dron)(caja ?caja)(brazo ?brazo)(contenido ?contenido)(persona ?persona)(loc ?loc)(necesita-contenido ?persona ?cont))
+        ((dron ?dron)(caja ?caja)(brazo ?brazo)(contenido ?contenido)(persona ?persona)(loc ?loc)(necesita-contenido ?persona ?cont)(loc-dron ?loc ?dron)(loc-persona ?loc ?persona))
         ((!dar-caja ?loc ?caja ?dron ?persona ?brazo ?cont))
      
-        ((loc-dron ?loc ?dron)(necesita-contenido ?persona ?cont))
+        ((loc-dron ?loc ?dron)(necesita-contenido ?persona ?cont)(loc-persona ?fin ?persona))
         ((!mover ?dron ?loc ?fin))
     
     )

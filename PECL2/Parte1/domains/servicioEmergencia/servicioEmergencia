@@ -2,11 +2,11 @@
 
     (:operator (!mover ?d ?i ?f) 
         ;Precondiciones
-        ((dron ?d)(loc ?i)(loc ?f)(loc-dron ?d ?i))     
+        ((dron ?d)(loc ?i)(loc ?f)(loc-dron ?i ?d))     
         ;Efectos negativos   
-        ((loc-dron ?d ?i))
+        ((loc-dron ?i ?d))
         ;Efectos positivos
-        ((loc-dron ?d ?f))
+        ((loc-dron ?f ?d))
     )
 
     (:operator (!coger-caja ?l ?c ?d ?b)
@@ -33,7 +33,7 @@
     (:method (enviar-todo ?d)
               
 	((dron ?d)(persona ?p)(contenido ?co)(necesita-contenido ?p ?co))
-	(enviar-caja ?d ?p)(enviar-todo ?d)
+	((enviar-caja ?d ?p)(enviar-todo ?d))
 	
 	()
 	()
@@ -48,8 +48,8 @@
         ((dron ?d)(caja ?c)(brazo ?b)(contenido ?co)(persona ?p)(loc ?l)(carga-brazo ?c ?b)(contiene ?c ?co)(necesita-contenido ?p ?co))
         ((dar-caja ?l ?c ?d ?p ?b ?co))
      
-        ((dron ?d)(loc ?i)(loc ?f)(loc-dron ?d ?i)(necesita-contenido ?p ?co))
-        ((mover ?d ?i ?f))
+        ((dron ?d)(loc ?l)(loc ?f)(necesita-contenido ?p ?co))
+        ((mover ?d ?l ?f))
     
     )
 

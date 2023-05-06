@@ -22,10 +22,10 @@
 
     (:operator (!dar-caja ?loc ?caja ?dron ?persona ?brazo ?cont)
         ;Precondiciones
-        ((loc ?loc)(caja ?caja)(dron ?dron)(brazo ?brazo)(persona ?persona)(contenido ?contenido)
+        ((loc ?loc)(caja ?caja)(dron ?dron)(brazo ?brazo)(persona ?persona)(contenido ?cont)
         (loc-dron ?loc ?dron)(brazos-dron ?dron ?brazo)(carga-brazo ?caja ?brazo)(contiene ?caja ?cont)(loc-persona ?loc ?persona))
         ;Efectos negativos
-        ((carga-brazo ?caja ?brazo)(necesita-contenido ?persona ?contenido)) 
+        ((carga-brazo ?caja ?brazo)(necesita-contenido ?persona ?cont)) 
         ;Efectos positivos
         ((libre-brazo ?dron ?brazo)(loc-caja ?loc ?caja))
     )
@@ -42,18 +42,9 @@
     
     (:method (enviar-caja ?dron ?persona)
     
-        ((base ?base)(necesita-contenido ?persona ?cont)(loc-dron ?loc ?dron)(loc-persona ?loc ?persona))
-        ((!dar-caja ?loc ?caja ?dron ?persona ?brazo ?cont)(!mover ?dron ?loc ?base))
+        ((base ?base)(necesita-contenido ?persona ?cont)(loc-dron ?base ?dron)(loc-persona ?fin ?persona))
+        ((!coger-caja ?base ?caja ?dron ?brazo)(!mover ?dron ?base ?fin)(!dar-caja ?fin ?caja ?dron ?persona ?brazo ?cont)(!mover ?dron ?fin ?base))
         
-        ((contiene ?caja ?cont)(necesita-contenido ?persona ?cont)(not(carga-brazo ?caja ?brazo)))
-        ((!coger-caja ?loc ?caja ?dron ?brazo))
-        
-        ((loc-dron ?loc ?dron)(necesita-contenido ?persona ?cont)(loc-persona ?fin ?persona))
-        ((!mover ?dron ?loc ?fin))
-        
-
-          
-    
     
     )
 

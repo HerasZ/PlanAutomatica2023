@@ -253,7 +253,7 @@ def main():
     need = setup_person_needs(options, crates_with_contents)
 
     # Define a problem name
-    problem_name = "servicioEmergenciaGEN"
+    problem_name = "servicioemergencia"
 
     # Open output file
     with open(problem_name + ".pddl", 'w') as f:

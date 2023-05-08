@@ -1,4 +1,4 @@
-(defdomain servicioEmergencia (
+(defdomain servicioemergencia (
 
     (:operator (!mover ?dron ?inicio ?fin) 
         ;Precondiciones

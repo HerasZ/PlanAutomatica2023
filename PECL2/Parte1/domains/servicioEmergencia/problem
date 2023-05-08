@@ -1,4 +1,4 @@
-(defproblem problem servicioEmergencia
+(defproblem problem servicioemergencia
     (
     (dron d1)(brazo brazod)(brazo brazoi)(brazos-dron d1 brazod)(brazos-dron d1 brazoi)(libre-brazo d1 brazod)(libre-brazo d1 brazoi)
     (contenido medicina)

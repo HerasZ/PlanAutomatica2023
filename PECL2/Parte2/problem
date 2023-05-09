@@ -1,0 +1,16 @@
+(defproblem problem servicioemergencia
+    (
+    (dron d1)(brazo brazod)(brazo brazoi)(brazos-dron d1 brazod)(brazos-dron d1 brazoi)(libre-brazo d1 brazod)(libre-brazo d1 brazoi)
+    (contenido medicina)
+    (contenido comida)
+    (base base)
+    (loc base)(cajas_base medicina 9)(cajas_base comida 4)
+    (loc l2)(cajas_localizacion medicina l2 0)(cajas_localizacion comida l2 0)
+    (loc l3)(cajas_localizacion medicina l3 0)(cajas_localizacion comida l3 0)
+    (loc-dron base d1)
+    (necesita_cajas medicina l2 6) 
+    (necesita_cajas comida l3 3)
+    
+    )
+    ((enviar-todo d1))
+)

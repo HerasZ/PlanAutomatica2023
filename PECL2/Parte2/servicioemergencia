@@ -1,0 +1,52 @@
+(defdomain servicioemergencia (
+
+    (:operator (!mover ?dron ?inicio ?fin) 
+        ;Precondiciones
+        ((dron ?dron)(loc ?inicio)(loc ?fin)(loc-dron ?inicio ?dron))     
+        ;Efectos negativos   
+        ((loc-dron ?inicio ?dron))
+        ;Efectos positivos
+        ((loc-dron ?fin ?dron))
+    )
+
+    (:operator (!coger-caja ?loc ?dron ?brazo ?contenido)
+        ;Precondiciones
+        ((loc ?loc)(dron ?dron)(brazo ?brazo)(contenido ?contenido) (cajas_base ?contenido ?cajas)
+        (loc-dron ?loc ?dron)(call > ?cajas 0)(libre-brazo ?dron ?brazo) (brazos-dron ?dron ?brazo))
+        ;Efectos negativos
+        ((libre-brazo ?dron ?brazo)(cajas_base ?contenido ?cajas)) 
+        ;Efectos positivos
+        ((carga-brazo ?contenido ?brazo)(cajas_base ?contenido (call - ?cajas 1)))           
+    )
+    
+    (:operator (!dar-caja ?loc ?dron ?brazo ?cont)
+        ;Precondiciones
+        ((loc ?loc)(dron ?dron)(brazo ?brazo)(contenido ?cont)(necesita_cajas ?cont ?loc ?cajas)(cajas_localizacion ?cont ?loc ?cajas2)(call > ?cajas 0)
+        (loc-dron ?loc ?dron)(brazos-dron ?dron ?brazo)(carga-brazo ?cont ?brazo))
+        ;Efectos negativos
+        ((carga-brazo ?cont ?brazo)(necesita_cajas ?cont ?loc ?cajas)(cajas_localizacion ?cont ?loc ?cajas2)) 
+        ;Efectos positivos
+        ((libre-brazo ?dron ?brazo)(necesita_cajas ?cont ?loc (call - ?cajas 1)) (cajas_localizacion ?cont ?loc (call + 1 ?cajas2)))
+    )
+
+
+    (:method (enviar-todo ?dron)
+              
+	((dron ?dron)(contenido ?cont)(loc ?loc)(necesita_cajas ?cont ?loc ?cajas)(call > ?cajas 0))
+	((enviar-caja ?dron ?loc ?cont)(enviar-todo ?dron))
+	
+	()
+	()
+     
+    )
+    
+    (:method (enviar-caja ?dron ?loc ?cont)
+    
+        ((base ?base)(contenido ?cont)(loc-dron ?base ?dron))
+        ((!coger-caja ?base ?dron ?brazo ?cont)(!mover ?dron ?base ?loc)(!dar-caja ?loc ?dron ?brazo ?cont)(!mover ?dron ?loc ?base))
+        
+    
+    )
+
+
+))

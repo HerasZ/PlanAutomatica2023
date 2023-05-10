@@ -313,7 +313,7 @@ def main():
         for x in carrier:
             f.write("\t(loc-contenedor base " + x + ")\n")
             f.write("\t(capacidad-contenedor " + x + " 0)\n")
-            f.write("\t(capacidad-maxima " + x + " " + str(random.randint(0,20)*10) + ")\n")
+            f.write("\t(capacidad-maxima " + x + " " + str(random.randint(1,20)*10) + ")\n")
 
 
         cajasMedBase=0
@@ -328,8 +328,8 @@ def main():
 
                 rand = random.randint(0,options.goals)                    
                
-                f.write("\t(necesita-cajas " + x +" "+ str(rand) +" "+ content_types[0]+")\n")
-                f.write("\t(necesita-cajas " + x +" "+ str(options.goals-rand) +" "+ content_types[1]+")\n")
+                f.write("\t(necesita-cajas " + content_types[0] +" "+ x +" "+ str(rand)+")\n")
+                f.write("\t(necesita-cajas " + content_types[1] +" "+ x +" "+ str(options.goals-rand)+")\n")
 
                 cajasComBase += rand
                 cajasMedBase += options.goals-rand

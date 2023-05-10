@@ -1,22 +1,167 @@
-(defproblem problem servicioemergencia
-    (
-    (dron d1)(brazo brazod)(brazo brazoi)(brazos-dron d1 brazod)(brazos-dron d1 brazoi)(libre-brazo d1 brazod)(libre-brazo d1 brazoi)(distintos brazoi brazod)
-    (contenedor c1)(loc-contenedor base c1)
-    (contenedor c2)(loc-contenedor base c2)
-    (capacidad-contenedor c1 0)
-    (capacidad-contenedor c2 0)
-    (capacidad-maxima c1 5)
-    (capacidad-maxima c2 6)
-    (contenido medicina)
-    (contenido comida)
-    (base base)
-    (loc base)(cajas-base medicina 9)(cajas-base comida 4)
-    (loc l2)(cajas-localizacion medicina l2 0)(cajas-localizacion comida l2 0)
-    (loc l3)(cajas-localizacion medicina l3 0)(cajas-localizacion comida l3 0)
-    (loc-dron base d1)
-    (necesita-cajas medicina l2 6) 
-    (necesita-cajas comida l3 3)
+(defdomain servicioemergencia (
+
+    (:operator (!mover-contenedor ?dron ?inicio ?fin ?contenedor) 
+        ;Precondiciones
+        ((dron ?dron)(contenedor ?contenedor)(loc ?inicio)(loc ?fin)(loc-dron ?inicio ?dron)(capacidad-maxima ?contenedor ?maximo))     
+        ;Efectos negativos   
+        ((loc-dron ?inicio ?dron))
+        ;Efectos positivos
+        ((loc-dron ?fin ?dron))(call + 50 ?maximo)
+    )
+    
+    (:operator (!mover-sin-contenedor ?dron ?inicio ?fin) 
+        ;Precondiciones
+        ((dron ?dron)(loc ?inicio)(loc ?fin)(loc-dron ?inicio ?dron))     
+        ;Efectos negativos   
+        ((loc-dron ?inicio ?dron))
+        ;Efectos positivos
+        ((loc-dron ?fin ?dron))50
+    )
+
+    (:operator (!coger-caja ?loc ?dron ?brazo ?contenido)
+        ;Precondiciones
+        ((loc ?loc)(dron ?dron)(brazo ?brazo)(contenido ?contenido) (cajas-base ?contenido ?cajas)
+        (loc-dron ?loc ?dron)(call > ?cajas 0)(libre-brazo ?dron ?brazo) (brazos-dron ?dron ?brazo))
+        ;Efectos negativos
+        ((libre-brazo ?dron ?brazo)(cajas-base ?contenido ?cajas)) 
+        ;Efectos positivos
+        ((carga-brazo ?contenido ?brazo)(cajas-base ?contenido (call - ?cajas 1)))           
+    )
+    
+
+    (:operator (!coger-contenedor ?loc ?dron ?brazoi ?bradod ?contenedor)
+        ;Precondiciones
+        ((loc ?loc)(dron ?dron)(brazo ?brazoi)(brazo ?brazod) (contenedor ?contenedor)
+        (loc-dron ?loc ?dron)(loc-contenedor ?loc ?contenedor)(libre-brazo ?dron ?brazoi)(libre-brazo ?dron ?brazod)(brazos-dron ?dron ?brazoi)(brazos-dron ?dron ?brazod)
+        (distintos ?brazoi ?brazod))
+        ;Efectos negativos
+        ((libre-brazo ?dron ?brazod)(libre-brazo ?dron ?brazoi)(loc-contenedor ?loc ?contenedor)) 
+        ;Efectos positivos
+        ((carga-brazo ?contenedor ?brazod)(carga-brazo ?contenedor ?brazoi))           
+    )
+
+    (:operator (!cargar-contenedor ?loc ?dron ?brazo ?contenido ?contenedor)
+        ;Precondiciones
+        ((loc ?loc)(dron ?dron)(brazo ?brazo)(contenido ?contenido)(contenedor ?contenedor)(loc-contenedor ?loc ?contenedor)
+        (loc-dron ?loc ?dron)(capacidad-contenedor ?contenedor ?capacidad)
+        (capacidad-maxima ?contenedor ?maximo)(call > ?maximo ?capacidad)(carga-brazo ?contenido ?brazo) (brazos-dron ?dron ?brazo))
+        ;Efectos negativos
+        ((carga-brazo ?contenido ?brazo)(capacidad-contenedor ?contenedor ?capacidad)) 
+        ;Efectos positivos
+        ((libre-brazo ?dron ?brazo)(capacidad-contenedor ?contenedor (call + ?capacidad 1)))           
+    )
+
+    (:operator (!dejar-contenedor ?loc ?dron ?brazoi ?bradod ?contenedor)
+        ;Precondiciones
+        ((loc ?loc)(dron ?dron)(brazo ?brazoi)(brazo ?brazod) (contenedor ?contenedor)
+        (loc-dron ?loc ?dron)(carga-brazo ?contenedor ?brazoi)(carga-brazo ?contenedor ?brazod)(brazos-dron ?dron ?brazoi)(brazos-dron ?dron ?brazod)
+        (distintos ?brazoi ?brazod))
+        ;Efectos negativos
+        ((carga-brazo ?contenedor ?brazod)(carga-brazo ?contenedor ?brazoi)) 
+        ;Efectos positivos
+        ((libre-brazo ?dron ?brazod)(libre-brazo ?dron ?brazoi)(loc-contenedor ?loc ?contenedor))           
+    )
+    
+    (:operator (!descargar-contenedor ?loc ?dron ?brazo ?cont ?contenedor)
+        ;Precondiciones
+        ((loc ?loc)(dron ?dron)(brazo ?brazo)(contenido ?cont)(contenedor ?contenedor)(loc-contenedor ?loc ?contenedor)
+        (capacidad-contenedor ?contenedor ?capacidad)(call > ?capacidad 0)(libre-brazo ?dron ?brazo)
+        (loc-dron ?loc ?dron)(brazos-dron ?dron ?brazo))
+        ;Efectos negativos
+        ((capacidad-contenedor ?contenedor ?capacidad)(libre-brazo ?dron ?brazo))
+        ;Efectos positivos
+        ((capacidad-contenedor ?contenedor (call - ?capacidad 1))(carga-brazo ?cont ?brazo))
+    )
+
+    (:operator (!dar-caja ?loc ?dron ?brazo ?cont)
+        ;Precondiciones
+        ((loc ?loc)(dron ?dron)(brazo ?brazo)(contenido ?cont)(necesita-cajas ?cont ?loc ?cajas)(cajas-localizacion ?cont ?loc ?cajas2)(call > ?cajas 0)
+        (loc-dron ?loc ?dron)(brazos-dron ?dron ?brazo)(carga-brazo ?cont ?brazo))
+        ;Efectos negativos
+        ((carga-brazo ?cont ?brazo)(necesita-cajas ?cont ?loc ?cajas)(cajas-localizacion ?cont ?loc ?cajas2)) 
+        ;Efectos positivos
+        ((libre-brazo ?dron ?brazo)(necesita-cajas ?cont ?loc (call - ?cajas 1)) (cajas-localizacion ?cont ?loc (call + 1 ?cajas2)))
+    )
+
+
+    (:method (enviar-todo ?dron)
+              
+	(:sort-by ?cajas > (and(dron ?dron)(contenido ?cont)(loc ?loc)(necesita-cajas ?cont ?loc ?cajas)(call > ?cajas 0)))
+	((enviar-caja ?dron ?loc ?cont)(enviar-todo ?dron))
+	
+	()
+	()
+     
+    )
+
+    (:method (enviar-caja ?dron ?loc ?cont)
+
+        ((necesita-cajas ?cont ?loc ?cajas)(call = ?cajas 1))
+        ((enviar-caja-sin ?dron ?loc ?cont))
+
+        ((necesita-cajas ?cont ?loc ?cajas)(call > ?cajas 1))
+        ((enviar-caja-t ?dron ?loc ?cont))  
+
+    )
+    
+    (:method (enviar-caja-t ?dron ?loc ?cont)
+    
+        (:sort-by ?maximo < (and(base ?base)(contenido ?cont)(contenedor ?contenedor)(loc-dron ?base ?dron)(capacidad-maxima ?contenedor ?maximo)(necesita-cajas ?cont ?loc ?necesita)(call >= ?maximo ?necesita)(call < (call - ?maximo ?necesita) 50)))
+        ((preparar-contenedor ?dron ?loc ?cont ?contenedor)
+        (!coger-contenedor ?base ?dron ?brazoi ?brazod ?contenedor)
+        (!mover-contenedor ?dron ?base ?loc ?contenedor)
+        (!dejar-contenedor ?loc ?dron ?brazoi ?brazod ?contenedor)
+        (entregar-contenedor ?dron ?loc ?cont ?contenedor)
+        (!coger-contenedor ?loc ?dron ?brazoi ?brazod ?contenedor)
+        (!mover-contenedor ?dron ?loc ?base ?contenedor)
+        (!dejar-contenedor ?base ?dron ?brazoi ?brazod ?contenedor))
+
+        (:sort-by ?maximo > (and(base ?base)(contenido ?cont)(contenedor ?contenedor)(loc-dron ?base ?dron)(capacidad-maxima ?contenedor ?maximo)(necesita-cajas ?cont ?loc ?necesita)(call > ?necesita ?maximo)))
+        ((preparar-contenedor ?dron ?loc ?cont ?contenedor)
+        (!coger-contenedor ?base ?dron ?brazoi ?brazod ?contenedor)
+        (!mover-contenedor ?dron ?base ?loc ?contenedor)
+        (!dejar-contenedor ?loc ?dron ?brazoi ?brazod ?contenedor)
+        (entregar-contenedor ?dron ?loc ?cont ?contenedor)
+        (!coger-contenedor ?loc ?dron ?brazoi ?brazod ?contenedor)
+        (!mover-contenedor ?dron ?loc ?base ?contenedor)
+        (!dejar-contenedor ?base ?dron ?brazoi ?brazod ?contenedor))
     
     )
-    ((enviar-todo d1))
-)
+
+    (:method (enviar-caja-sin ?dron ?loc ?cont)
+
+        ((base ?base)(contenido ?cont)(loc-dron ?base ?dron))
+        ((!coger-caja ?base ?dron ?brazo ?cont)(!mover-sin-contenedor ?dron ?base ?loc)(!dar-caja ?loc ?dron ?brazo ?cont)(!mover-sin-contenedor ?dron ?loc ?base))
+    
+    )
+
+    (:method (preparar-contenedor ?dron ?loc ?cont ?contenedor)
+    
+    
+	((capacidad-contenedor ?contenedor ?capacidad)(necesita-cajas ?cont ?loc ?cajas)(call = ?capacidad ?cajas))
+	()
+
+	((capacidad-contenedor ?contenedor ?capacidad)(capacidad-maxima ?contenedor ?maximo)(call = ?capacidad ?maximo))
+	()
+	
+
+        ((brazo ?brazo)(necesita-cajas ?cont ?loc ?numcajas)(cajas-base ?cont ?cajasdisponibles)(call > ?cajasdisponibles 0)(base ?base)(capacidad-contenedor ?contenedor ?capacidad)
+        (capacidad-maxima ?contenedor ?maximo)(call < ?capacidad ?maximo))
+        ((!coger-caja ?base ?dron ?brazo ?cont)(!cargar-contenedor ?base ?dron ?brazo ?cont ?contenedor)(preparar-contenedor ?dron ?loc ?cont ?contenedor))
+        
+        
+    
+    )
+
+    (:method (entregar-contenedor ?dron ?loc ?cont ?contenedor)
+    
+    	((capacidad-contenedor ?contenedor ?capacidad)(call = ?capacidad 0))
+	    ()
+
+        ((brazo ?brazo)(necesita-cajas ?cont ?loc ?cajasentregar)(call > ?cajasentregar 0)(capacidad-contenedor ?contenedor ?capacidad)(call > ?capacidad 0))
+        ((!descargar-contenedor ?loc ?dron ?brazo ?cont ?contenedor)(!dar-caja ?loc ?dron ?brazo ?cont)(entregar-contenedor ?dron ?loc ?cont ?contenedor))
+
+    )
+
+
+))

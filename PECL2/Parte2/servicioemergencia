@@ -1,12 +1,21 @@
 (defdomain servicioemergencia (
 
-    (:operator (!mover ?dron ?inicio ?fin) 
+    (:operator (!mover-contenedor ?dron ?inicio ?fin ?contenedor) 
+        ;Precondiciones
+        ((dron ?dron)(contenedor ?contenedor)(loc ?inicio)(loc ?fin)(loc-dron ?inicio ?dron)(capacidad-maxima ?contenedor ?maximo))     
+        ;Efectos negativos   
+        ((loc-dron ?inicio ?dron))
+        ;Efectos positivos
+        ((loc-dron ?fin ?dron))(call + 50 ?maximo)
+    )
+    
+    (:operator (!mover-sin-contenedor ?dron ?inicio ?fin) 
         ;Precondiciones
         ((dron ?dron)(loc ?inicio)(loc ?fin)(loc-dron ?inicio ?dron))     
         ;Efectos negativos   
         ((loc-dron ?inicio ?dron))
         ;Efectos positivos
-        ((loc-dron ?fin ?dron))
+        ((loc-dron ?fin ?dron))50
     )
 
     (:operator (!coger-caja ?loc ?dron ?brazo ?contenido)
@@ -84,18 +93,35 @@
 	()
      
     )
-    
+
     (:method (enviar-caja ?dron ?loc ?cont)
+
+        ((necesita-cajas ?cont ?loc ?cajas)(call = ?cajas 1))
+        ((enviar-caja-sin ?dron ?loc ?cont))
+
+        ((necesita-cajas ?cont ?loc ?cajas)(call > ?cajas 1))
+        ((enviar-caja-t ?dron ?loc ?cont))  
+
+    )
+    
+    (:method (enviar-caja-t ?dron ?loc ?cont)
     
         ((base ?base)(contenido ?cont)(contenedor ?contenedor)(loc-dron ?base ?dron))
         ((preparar-contenedor ?dron ?loc ?cont ?contenedor)
         (!coger-contenedor ?base ?dron ?brazoi ?brazod ?contenedor)
-        (!mover ?dron ?base ?loc)
+        (!mover-contenedor ?dron ?base ?loc ?contenedor)
         (!dejar-contenedor ?loc ?dron ?brazoi ?brazod ?contenedor)
         (entregar-contenedor ?dron ?loc ?cont ?contenedor)
         (!coger-contenedor ?loc ?dron ?brazoi ?brazod ?contenedor)
-        (!mover ?dron ?loc ?base)
+        (!mover-contenedor ?dron ?loc ?base ?contenedor)
         (!dejar-contenedor ?base ?dron ?brazoi ?brazod ?contenedor))
+    
+    )
+
+    (:method (enviar-caja-sin ?dron ?loc ?cont)
+
+        ((base ?base)(contenido ?cont)(loc-dron ?base ?dron))
+        ((!coger-caja ?base ?dron ?brazo ?cont)(!mover-sin-contenedor ?dron ?base ?loc)(!dar-caja ?loc ?dron ?brazo ?cont)(!mover-sin-contenedor ?dron ?loc ?base))
     
     )
 
